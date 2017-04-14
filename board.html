@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>board</title>
+  </head>
+
+  <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+  </script>
+
+  <body aurelia-app="boardMain">
+    <script src="output/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+  </body>
+</html>

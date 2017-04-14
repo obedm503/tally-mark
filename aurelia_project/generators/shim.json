@@ -1,0 +1,4 @@
+{
+  "name": "shim",
+  "description": "Creates a shim for node core modules to use 'import' statements and places it in the project shims folder."
+}

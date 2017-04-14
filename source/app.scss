@@ -1,0 +1,36 @@
+@import 'styles/fonts';
+
+html {
+	font-family: 'Open Sans';
+	overflow: hidden;
+
+}
+
+.text {
+  align-content: center;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+@for $i from 1 through 10 {
+  $n: $i * 10;
+
+  .padding-#{$n} {
+    padding: #{$n}px;
+  }
+  .padding-left-#{$n} {
+    padding-left: #{$n}px;
+  }
+  .padding-right-#{$n} {
+    padding-right: #{$n}px;
+  }
+  .padding-top-#{$n} {
+    padding-top: #{$n}px;
+  }
+  .padding-bottom-#{$n} {
+    padding-bottom: #{$n}px;
+  }
+}
