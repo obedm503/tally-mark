@@ -27,16 +27,16 @@ export class Board {
     ipcRenderer.on('teamName', (e, team, name) => {
       this.game.teams[team].name = name;
     });
-    ipcRenderer.on('loadGame', (e, id) => {
-      this.loadGame(id)
+    ipcRenderer.on('loadGame', (e, game) => {
+      this.loadGame(game)
     });
 
   }
 
-  loadGame(id: string){
-    this.game = this.store.getGame(id);
+  loadGame(game: string){
+    this.game = game;
     this.game.teams.map(team => Object.assign(team, this.store.getTeam(team.id)) );
-    
+
     $('#countdown').countdown({
       minutes: this.game.timer,
       backgroundColor:'bg-black',

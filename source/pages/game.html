@@ -1,48 +1,40 @@
 <template>
   <require from="./game.css"></require>
-  <dock-panel>
-    <div class="grid condensed center">
-      <div class="row cells12">
-        <div class="cell colspan2 offset5">
-          <h1 style="display:block">Time</h1>
-          <h1 style="display:block">${game.time}</h1>
-          <button
-            type="button"
-            class="button large-button success"
-            click.trigger="time(game.time+1)"
-          >+1</button>
-          <button
-            type="button"
-            class="button large-button danger"
-            click.trigger="time(game.time-1)"
-          >-1</button>
-        </div>
-      </div>
-      <div class="row cells12">
-        <div class="cell"></div>
-        <div class="cell colspan5" repeat.for="team of game.teams">
-          <h2 style="display:block">${team.name}</h2>
-          <h3 style="display:block">${team.score}</h3>
 
-          <div repeat.for="i of [1,2,3]">
-            <div class="cell"></div>
-            <button
-              type="button"
-              class="button large-button success"
-              click.delegate="score($parent.$index, team.score + i)"
-            >+${i}</button>
-            <div class="cell"></div>
-            <button
-              type="button"
-              class="button large-button danger"
-              click.delegate="score($parent.$index, team.score - i)"
-            >-${i}</button>
-            <div class="cell"></div>
-          </div>
+  <div class="row flex-just-center">
+    <div class="cell colspan3 center">
+      <h1>${game.name}</h1>
+      <h2>Time</h2>
+      <h2>${game.time}</h2>
+      <button
+        type="button"
+        class="button large-button success"
+        click.trigger="time(game.time+1)"
+      >+1</button>
+      <button
+        type="button"
+        class="button large-button danger"
+        click.trigger="time(game.time-1)"
+      >-1</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="cell auto-size center" repeat.for="team of game.teams">
+      <h2>${team.name}</h2>
+      <h3>${team.score}</h3>
 
-        </div>
-        <div class="cell"></div>
+      <div class="center" repeat.for="i of [1,2,3]">
+        <button
+          type="button"
+          class="button large-button success"
+          click.delegate="score($parent.$index, team.score + i)"
+        >+${i}</button>
+        <button
+          type="button"
+          class="button large-button danger"
+          click.delegate="score($parent.$index, team.score - i)"
+        >-${i}</button>
       </div>
     </div>
-  </dock-panel>
+  </div>
 </template>

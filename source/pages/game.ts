@@ -5,7 +5,6 @@ import { Store } from '../services/store';
 @inject(Store)
 export class Game {
   @bindable game;
-  @bindable board;
 
   constructor(public store: Store){}
 
@@ -19,10 +18,10 @@ export class Game {
     ipcRenderer.sendTo(2, 'time', newTime);
   }
 
-  activate(id){
-    this.game = this.store.getGame(id);
+  activate(game){
+    this.game = game;
     this.game.teams.map(team => Object.assign(team, this.store.getTeam(team.id)) );
-    ipcRenderer.sendTo(2,'loadGame', id);
+    ipcRenderer.sendTo(2,'loadGame', game);
   }
 
 }

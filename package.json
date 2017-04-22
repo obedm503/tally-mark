@@ -42,6 +42,7 @@
     "aurelia-cli": "^0.21.0",
     "aurelia-fetch-client": "^1.1.0",
     "aurelia-i18n": "^1.3.0",
+    "aurelia-router": "^1.3.0",
     "aurelia-testing": "^1.0.0-beta.2.0.0",
     "aurelia-tools": "^0.2.2",
     "aurelia-validation": "^1.0.0-beta.1.0.1",

@@ -54,5 +54,5 @@ export function configure(aurelia: Aurelia) {
     return i18n.tr(propertyName);
   };
 
-  aurelia.start().then(() => aurelia.setRoot('./elements/board') );
+  aurelia.start().then(() => aurelia.setRoot('./pages/board') );
 }

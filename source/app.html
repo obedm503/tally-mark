@@ -1,8 +1,33 @@
 <template>
   <require from="metro/css/metro.min.css"></require>
+  <require from="metro/css/metro-colors.min.css"></require>
+  <require from="metro/css/metro-responsive.min.css"></require>
+  <require from="metro/css/metro-schemes.min.css"></require>
 	<require from="./app.css"></require>
-	<window>
+
+  <link rel="stylesheet" href="./node_modules/metro-dist/css/metro-icons.min.css"/>
+
+  <!--<require from="./elements/side-nav"></require>-->
+	<!--<window>
 		<menu-control items.bind="menu"></menu-control>
 		<tab-control pages.bind="pages"></tab-control>
-	</window>
+	</window>-->
+  <div class="flex-grid condensed no-responsive-future" style="height:100%">
+    <div class="row" style="height:100%">
+      <div class="cell size-x200 cell-sidebar" style="background-color:#71b1d1">
+        <ul class="sidebar navy">
+          <li repeat.for="item of router.navigation" class="${item.isActive ? 'active' : ''}">
+            <a href.bind="item.href">
+              <span class="icon ${item.settings.icon}"></span>
+              <span class="title">
+                ${item.title}
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <router-view containerless></router-view>
+    </div>
+  </div>
+
 </template>

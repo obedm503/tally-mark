@@ -1,22 +1,8 @@
 import { remote } from 'electron';
+import { ITeam, IGame } from '../app.d';
 
 const low = remote.require('lowdb');
 const uuid = remote.require('uuid');
-
-
-interface ITeam {
-  id?:string;
-  name: string;
-  image: string;
-}
-interface IGame {
-  id?:string;
-  name:string;
-  date:string;
-  time:number;
-  timer:number;
-  teams: ITeam[];
-}
 
 export class Store {
   public db;

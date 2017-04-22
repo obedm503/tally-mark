@@ -1,12 +1,13 @@
 import { I18N } from 'aurelia-i18n';
 import { inject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
 import { ipcRenderer, remote } from 'electron';
+import { Router, RouterConfiguration, activationStrategy } from 'aurelia-router';
 
 import Pages from './services/pages'
 
 @inject(I18N, Pages)
 export class App {
+  public router: Router;
   private i18n: I18N;
   public pages;
   public id: number = remote.getCurrentWebContents().id;
@@ -80,4 +81,33 @@ export class App {
       buttons: ["OK"]
     });
   }
+
+   configureRouter(config: RouterConfiguration, router: Router){
+    this.router = router;
+    config.title = 'Tally Mark';
+    config.map([
+      { route: '', redirect: 'games' },
+      {
+        route: 'games',
+        moduleId: './elements/list',
+        name: 'games',
+        nav: true,
+        title: 'Games',
+        settings: {
+          icon: 'mif-vpn-publ'
+        }
+      },
+      {
+        route: 'teams',
+        moduleId: './elements/list',
+        name:'teams',
+        nav: true,
+        title: 'Teams',
+        settings: {
+          icon: 'mif-drive-eta'
+        }
+      }
+    ]);
+    config.fallbackRoute('games');
+   }
 }
