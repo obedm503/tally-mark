@@ -1,6 +1,5 @@
 import { bindable } from 'aurelia-framework';
 import * as $ from 'jquery';
-import { ITeam } from '../app.d';
 
 export class CreateTeam {
   @bindable team: ITeam;

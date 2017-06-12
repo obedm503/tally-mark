@@ -89,22 +89,22 @@ export class App {
       { route: '', redirect: 'games' },
       {
         route: 'games',
-        moduleId: './elements/list',
+        moduleId: './elements/list/list',
         name: 'games',
         nav: true,
         title: 'Games',
         settings: {
-          icon: 'mif-vpn-publ'
+          icon: 'mif-gamepad'
         }
       },
       {
         route: 'teams',
-        moduleId: './elements/list',
+        moduleId: './elements/list/list',
         name:'teams',
         nav: true,
         title: 'Teams',
         settings: {
-          icon: 'mif-drive-eta'
+          icon: 'mif-users'
         }
       }
     ]);

@@ -1,0 +1,91 @@
+<template>
+  <require from="./game.css"></require>
+
+  <top-bar
+    create.call="create()"
+    delete.call="delete()"
+    save.call="save()"
+    cancel.call="cancel()"
+    edit.call="edit()"
+    editing.bind="editing"
+  ></top-bar>
+
+  <div class="row flex-just-center">
+    <div class="cell colspan5 center">
+      <h1 contenteditable.bind="editing" class="${editing ? 'bg-white fg-black':''}" textcontent.two-way="game.name"></h1>
+      <h2>Period</h2>
+      <h2>${game.period}</h2>
+      <button
+        type="button"
+        class="button large-button success"
+        click.trigger="period( game.period + 1 )"
+      >+1</button>
+      <button
+        type="button"
+        class="button large-button danger"
+        click.trigger="period( game.period - 1 )"
+      >-1</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="cell auto-size center">
+      <h3>Date</h3>
+      <h4 show.bind="!editing">${game.date}</h4>
+      <div show.bind="editing" class="input-control text" data-role="datepicker" data-scheme="darcula" data-other-days="true" data-week-start="1" data-locale="en" data-format="yyyy.mm.dd">
+        <input type="text" value.bind="game.date">
+        <button class="button"><span class="mif-calendar"></span></button>
+      </div>
+    </div>
+    <div class="cell auto-size center">
+      <h3>Timer</h3>
+      <h4
+        contenteditable.bind="editing"
+        textcontent.two-way="game.timer"
+        class="${editing ? 'bg-white fg-black':''}"
+      ></h4>
+    </div>
+  </div>
+
+  <!--<div class="row">
+    <div class="cell auto-size center">
+      <div class="input-control select">
+        <select value.two-way="team1">
+          <option repeat.for="option of teams" value.two-way="option">${option.name}</option>
+        </select>
+      </div>
+    </div>
+    <div class="cell auto-size center">
+      <div class="input-control select">
+        <select value.two-way="team2">
+          <option repeat.for="option of teams" value.two-way="option">${option.name}</option>
+        </select>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="row">
+    <div class="cell auto-size center" repeat.for="team of game.teams">
+      <h2 >${team.name}</h2>
+      <div show.bind="editing" class="input-control select">
+        <select value.bind="team" matcher.bind="teamMatcher" change.delegate="selectedTeam(team, $event)">
+          <option repeat.for="option of teams" model.bind="option">${option.name}</option>
+        </select>
+      </div>
+
+      <h3>${team.score}</h3>
+
+      <div class="center" repeat.for="i of [1,2,3]">
+        <button
+          type="button"
+          class="button large-button success"
+          click.delegate="score($index, i)"
+        >+${i}</button>
+        <button
+          type="button"
+          class="button large-button danger"
+          click.delegate="score($index, -i)"
+        >-${i}</button>
+      </div>
+    </div>
+  </div>
+</template>

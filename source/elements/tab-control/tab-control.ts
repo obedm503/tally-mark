@@ -1,6 +1,6 @@
 import { customElement, bindable, inject } from 'aurelia-framework';
 
-import Pages from '../services/pages';
+import Pages from '../../services/pages';
 
 @customElement("tab-control")
 @inject(Pages)

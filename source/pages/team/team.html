@@ -1,0 +1,61 @@
+<template>
+  <require from="./team.css"></require>
+
+  <top-bar
+    create.call="create()"
+    delete.call="deleteTeam()"
+    save.call="saveEdit()"
+    cancel.call="cancelEdit()"
+    edit.call="edit()"
+    editing.bind="editing"
+  ></top-bar>
+
+  <div class="padding10">
+    <div class="row cells12">
+      <div class="cell colspan4">
+        <div class="image-container bordered">
+          <img src.bind="team.image">
+        </div>
+        <div show.bind="editing">
+          <button class="button" click.delegate="openImageFile()">
+            Open local image
+          </button>
+          <div class="input-control text">
+            <input type="text" value.bind="team.image">
+          </div>
+        </div>
+      </div>
+      <div class="cell colspan8 padding10">
+        <div class="row">
+          <h1 show.bind="!editing">${team.name}</h1>
+          <div show.bind="editing" class="input-control text">
+            <input type="text" value.bind="team.name">
+          </div>
+        </div>
+        <div class="row">
+          <h2><span class="small">ID: ${team.id}</span></h2>
+        </div>
+      </div>
+    </div>
+    <div class="row" show.bind="team.games.length">
+      <table class="table bordered border">
+        <thead>
+          <th>Game</th>
+          <th>Date</th>
+          <th>Scores</th>
+        </thead>
+        <tbody>
+          <tr repeat.for="game of team.games">
+            <td>${game.name}</td>
+            <td>${game.date}</td>
+            <td>
+              <div class="cell" repeat.for="theTeam of game.teams">
+                ${theTeam.name}: ${theTeam.score}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>

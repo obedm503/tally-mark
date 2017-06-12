@@ -28,6 +28,9 @@ app.on('ready', () => {
     win.on('closed', () => {
       win = null;
     });
+    // win.once('ready-to-show', () => {
+    //   win.show();
+    // });
     return win;
   }
 
@@ -36,7 +39,8 @@ app.on('ready', () => {
     maximize: true,
     file: 'mainWindowState.json'
   }, {
-    frame: true
+    frame: true,
+    backgroundColor:'#2D2D30'
   });
 
   // score board window
@@ -44,7 +48,8 @@ app.on('ready', () => {
     fullscreen: true,
     file: 'boardWindowState.json'
   },{
-    frame: false
+    frame: false,
+    backgroundColor:'#2D2D30'
   });
 
 });

@@ -3,9 +3,6 @@ import { remote } from 'electron';
 export class Window {
   title: string = "App";
 
-  constructor() {
-  }
-
   tryCloseWindow() {
     this.closeWindow();
   }
