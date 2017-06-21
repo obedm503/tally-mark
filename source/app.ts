@@ -1,9 +1,9 @@
-import { I18N } from 'aurelia-i18n';
 import { inject } from 'aurelia-framework';
+import { I18N } from 'aurelia-i18n';
+import { activationStrategy, Router, RouterConfiguration } from 'aurelia-router';
 import { ipcRenderer, remote } from 'electron';
-import { Router, RouterConfiguration, activationStrategy } from 'aurelia-router';
 
-import Pages from './services/pages'
+import Pages from './services/pages';
 
 @inject(I18N, Pages)
 export class App {
@@ -20,50 +20,50 @@ export class App {
           title: "Open",
           execute: () => {
             this.open();
-          }
+          },
         },
         {
-          type: "seperator"
+          type: "seperator",
         },
         {
           title: "Print",
           execute: () => {
             window.print();
-          }
+          },
         },
         {
-          type: "seperator"
+          type: "seperator",
         },
         {
           title: "Exit",
           execute: () => {
 
-            window.alert("Clicked Exit")
-          }
-        }
-      ]
+            window.alert("Clicked Exit");
+          },
+        },
+      ],
     },
     {
       title: "Edit",
       items: [
         {
-          title: "Cut"
+          title: "Cut",
         },
         {
-          title: "Copy"
+          title: "Copy",
         },
         {
-          title: "Paste"
-        }
-      ]
+          title: "Paste",
+        },
+      ],
     },
     {
       title: "About",
       execute: () => {
         window.alert("Mooo!");
-      }
-    }
-  ]
+      },
+    },
+  ];
 
   constructor(i18n: I18N, pages: Pages) {
     this.i18n = i18n;
@@ -78,7 +78,7 @@ export class App {
   open() {
     remote.dialog.showMessageBox({
       message: this.i18n.tr("test"),
-      buttons: ["OK"]
+      buttons: ["OK"],
     });
   }
 
@@ -94,19 +94,19 @@ export class App {
         nav: true,
         title: 'Games',
         settings: {
-          icon: 'mif-gamepad'
-        }
+          icon: 'mif-gamepad',
+        },
       },
       {
         route: 'teams',
         moduleId: './elements/list/list',
-        name:'teams',
+        name: 'teams',
         nav: true,
         title: 'Teams',
         settings: {
-          icon: 'mif-users'
-        }
-      }
+          icon: 'mif-users',
+        },
+      },
     ]);
     config.fallbackRoute('games');
    }

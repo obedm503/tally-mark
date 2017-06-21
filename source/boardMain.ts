@@ -1,8 +1,8 @@
-import {Aurelia} from 'aurelia-framework'
+import {Aurelia} from 'aurelia-framework';
 import {I18N} from 'aurelia-i18n';
 import {ValidationMessageProvider} from 'aurelia-validation';
-import environment from './environment';
 import * as Backend from 'i18next-xhr-backend';
+import environment from './environment';
 
 //Configure Bluebird Promises.
 //Note: You may want to use environment-specific configuration.
@@ -33,14 +33,14 @@ export function configure(aurelia: Aurelia) {
     // make sure to return the promise of the setup method, in order to guarantee proper loading
     return instance.setup({
       backend: { // <-- configure backend settings
-        loadPath: './locales/{{lng}}/{{ns}}.json' // <-- XHR settings for where to get the files from
+        loadPath: './locales/{{lng}}/{{ns}}.json', // <-- XHR settings for where to get the files from
       },
       //lng: 'es',
       attributes: ['t', 'i18n'],
       // ns: ['translation'],
       //defaultNS: 'translation',
       fallbackLng: 'en',
-      debug: true
+      debug: true,
     });
   });
 

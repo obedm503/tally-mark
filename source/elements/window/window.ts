@@ -8,18 +8,18 @@ export class Window {
   }
 
   minimizeWindow() {
-    var window: Electron.BrowserWindow = remote.getCurrentWindow();
+    const window: Electron.BrowserWindow = remote.getCurrentWindow();
     window.minimize();
   }
 
   maximizeWindow() {
-    var window: Electron.BrowserWindow = remote.getCurrentWindow();
+    const window: Electron.BrowserWindow = remote.getCurrentWindow();
     if (window.isMaximized()) { window.unmaximize(); }
     else { window.maximize(); }
   }
 
   closeWindow() {
-    var window: Electron.BrowserWindow = remote.getCurrentWindow();
+    const window: Electron.BrowserWindow = remote.getCurrentWindow();
     window.close();
   }
 

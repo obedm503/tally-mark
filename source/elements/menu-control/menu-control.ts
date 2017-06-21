@@ -1,4 +1,4 @@
-import { customElement, bindable } from 'aurelia-framework';
+import { bindable, customElement } from 'aurelia-framework';
 
 @customElement("menu-control")
 export class MenuControl {

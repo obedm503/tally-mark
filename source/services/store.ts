@@ -1,19 +1,23 @@
 import { remote } from 'electron';
+import { BehaviorSubject } from 'rxjs';
 
 const low = remote.require('lowdb');
 const uuid = remote.require('uuid');
 
 export class Store {
+  private initialState = { games: [], teams: [] };
+  private _state = new BehaviorSubject(this.initialState);
+  private db;
+
   public teams: ITeam[] = [];
   public games: IGame[] = [];
+  public state = this._state.asObservable();
 
-  private db;
-  private path: string;
   constructor(){
-    let path = remote.app.getPath('userData');
+    const path = remote.app.getPath('userData');
     this.db = low(`${ path }/db.json`);
 
-    this.db.defaults({ games: [], teams: [] }).write();
+    this.db.defaults(this.initialState).write();
 
     this.games = this.db.get('games').value();
     this.games.forEach( game => {
@@ -26,20 +30,22 @@ export class Store {
     this.teams = this.db.get('teams').value();
     this.teams.forEach( team => {
       // fill games
-      team.games.map( id => this.getGame(id as any) );
+      team.games.forEach( id => this.getGame(id as any) );
     });
     // console.log('games: ', this.games, 'teams: ', this.teams)
   }
 
   save(){
-    let games = this.games.map( game => this.cleanGame(game) );
+    const games = this.games.map( game => this.cleanGame(game) );
 
-    let teams = this.teams.map( team => this.cleanTeam(team) );
+    const teams = this.teams.map( team => this.cleanTeam(team) );
 
-    this.db.setState({
+    const newState = {
       games,
-      teams
-    });
+      teams,
+    };
+    this._state.next(newState);
+    this.db.setState(newState);
   }
 
   cleanTeam( team: ITeam ){
@@ -47,7 +53,7 @@ export class Store {
       name: team.name,
       id: team.id || uuid(),
       image: team.image,
-      games: team.games.map( game => game.id )
+      games: team.games.map( game => game.id ),
     };
   }
 
@@ -57,11 +63,11 @@ export class Store {
       id: game.id,
       teams: game.teams.map( team => ({
         id: team.id,
-        score: team.score
+        score: team.score,
       }) ),
       date: game.date,
       period: game.period,
-      timer: game.timer
+      timer: game.timer,
     };
   }
 
@@ -71,8 +77,8 @@ export class Store {
   setTeam(team: ITeam): ITeam {
     team = this.cleanTeam(team) as any;
 
-    let foundIndex = this.teams.findIndex( el => el.id === team.id);
-    if( foundIndex > -1 ){
+    const foundIndex = this.teams.findIndex( el => el.id === team.id);
+    if ( foundIndex > -1 ){
       // update without loosing references
       Object.assign(this.teams[foundIndex], team);
     } else {
@@ -84,7 +90,7 @@ export class Store {
     return this.getTeam( team.id );
   }
   deleteTeam(team: ITeam): void {
-    let index = this.teams.findIndex( el => el.id === team.id );
+    const index = this.teams.findIndex( el => el.id === team.id );
     this.teams.splice(index, 1);
 
     this.save();
@@ -96,11 +102,11 @@ export class Store {
   setGame(game: IGame): IGame {
     game = this.cleanGame(game) as any;
 
-    let foundIndex = this.games.findIndex( el => el.id === game.id);
-    if( foundIndex > -1 ){
+    const foundIndex = this.games.findIndex( el => el.id === game.id);
+    if ( foundIndex > -1 ){
       this.games[foundIndex] = {
         ...this.games[foundIndex],
-        ...game
+        ...game,
       };
     } else {
       this.games.push(game);
@@ -111,7 +117,7 @@ export class Store {
     return this.getGame( game.id );
   }
   deleteGame(game: IGame): void {
-    let index = this.teams.findIndex( el => el.id === game.id );
+    const index = this.teams.findIndex( el => el.id === game.id );
     this.games.splice(index, 1);
 
     this.save();

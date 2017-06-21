@@ -1,11 +1,11 @@
-import { customElement, bindable, inject } from 'aurelia-framework';
+import { bindable, customElement, inject } from 'aurelia-framework';
 
 import Pages from '../../services/pages';
 
 @customElement("tab-control")
 @inject(Pages)
 export class TabControlCustomElement {
-  @bindable items;// = [];
+  @bindable items; // = [];
   @bindable selectedIndex = 0;
   @bindable pages;
 

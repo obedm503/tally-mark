@@ -1,5 +1,25 @@
 {
-  "rules": {
-
-  }
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-eslint-rules"
+    ],
+    "jsRules": {},
+    "rules": {
+      "keyword-spacing":[
+        "error",
+        {
+          "overrides": {
+            "if": { "after": false },
+            "for": { "after": false },
+            "while": { "after": false }
+          }
+        }
+      ],
+      "arrow-parens": false,
+      "object-literal-sort-keys": false,
+      "quotemark": [
+        "single"
+      ]
+    }
 }

@@ -4,7 +4,7 @@ import * as $ from 'jquery';
 export class CreateTeam {
   @bindable team: ITeam;
   create(){
-    console.log(this.team)
+    console.log(this.team);
     return this.team;
   }
   public show(){

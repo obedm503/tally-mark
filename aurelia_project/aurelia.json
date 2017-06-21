@@ -40,13 +40,13 @@
   },
   "paths": {
     "root": "source",
-    "resources": "source/resources",
-    "elements": "source/elements",
-    "shims": "aurelia_project/shims",
-    "attributes": "source/attributes",
-    "valueConverters": "source/value-converters",
-    "bindingBehaviors": "source/binding-behaviors",
-    "pages": "source/pages"
+    "resources": "resources",
+    "elements": "elements",
+    "shims": "../aurelia_project/shims",
+    "attributes": "attributes",
+    "valueConverters": "value-converters",
+    "bindingBehaviors": "binding-behaviors",
+    "pages": "pages"
   },
   "testFramework": {
     "id": "jasmine",
@@ -122,7 +122,7 @@
           },
           {
             "name": "electron",
-            "path": "../aurelia_project/shims/electron"
+            "path": "../aurelia_project/electron"
           },
           {
             "name": "aurelia-templating-resources",
@@ -177,8 +177,19 @@
             ]
           },
           {
-            "name": "fs",
-            "path": "../aurelia_project/shims/fs"
+            "name": "redux",
+            "path": "../node_modules/redux/dist",
+            "main": "redux.min"
+          },
+          {
+            "name":"rxjs",
+            "path":"../node_modules/rxjs/bundles",
+            "main":"Rx.min"
+          },
+          {
+            "name":"normalizr",
+            "path":"../node_modules/normalizr/dist",
+            "main":"normalizr.amd.min"
           }
         ]
       }

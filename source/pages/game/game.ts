@@ -1,9 +1,9 @@
-import { bindable, inject, ObserverLocator, BindingEngine } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { bindable, BindingEngine, inject, ObserverLocator } from 'aurelia-framework';
 import { ipcRenderer, remote } from 'electron';
-import { Store } from '../../services/store';
 import * as $ from 'jquery';
 import 'metro';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { Store } from '../../services/store';
 
 @inject(Store, EventAggregator, ObserverLocator, BindingEngine)
 export class Game {
@@ -18,7 +18,7 @@ export class Game {
     public store: Store,
     public ea: EventAggregator,
     public observer: ObserverLocator,
-    public binding: BindingEngine
+    public binding: BindingEngine,
   ){
     this.teams = this.store.teams;
   }
@@ -37,14 +37,14 @@ export class Game {
 
     this.gameBak = JSON.parse(JSON.stringify( this.game ));
     // this.game.teams.map(team => Object.assign(team, this.store.getTeam(team.id)) );
-    ipcRenderer.sendTo(2,'load', game);
+    ipcRenderer.sendTo(2, 'load', game);
   }
   updateTeam(){
     ipcRenderer.sendTo(2, 'update', this.game);
   }
 
   selectedTeam(team: ITeam, e){
-    console.log(this.game.teams, team, e)
+    console.log(this.game.teams, team, e);
     // this.store.getTeam(team.id);
   }
   edit(){
@@ -60,11 +60,11 @@ export class Game {
       buttons: ['Delete', 'Cancel'],
       defaultId: 1,
       cancelId: 1,
-      title:'the Title',
-      message:'The message',
+      title: 'the Title',
+      message: 'The message',
       detail: 'a detail',
     }, selected => {
-      if( selected === 0 ){
+      if ( selected === 0 ){
         this.ea.publish('list-delete', { item: this.game, route: 'games' });
         this.store.deleteGame(this.game);
         this.editing = false;
@@ -74,16 +74,16 @@ export class Game {
   create(){
     this.editing = true;
     this.game = {
-      name:'',
+      name: '',
       date: ( new Date() ).format('yyyy.mm.dd'),
-      period:1,
-      timer:'0',
-      teams:[]
+      period: 1,
+      timer: '0',
+      teams: [],
     };
   }
   save(){
     this.editing = false;
-    let copy = JSON.parse( JSON.stringify(this.game) );
+    const copy = JSON.parse( JSON.stringify(this.game) );
     this.gameBak = JSON.parse( JSON.stringify(this.game) );
     this.game = this.store.setGame(copy);
 
@@ -99,9 +99,9 @@ export class Game {
   }
 
   score(team, newScore){
-    let score = this.game.teams[team].score + newScore;
-    this.game.teams[team].score = score
-    console.log(team, newScore, score)
+    const score = this.game.teams[team].score + newScore;
+    this.game.teams[team].score = score;
+    console.log(team, newScore, score);
     // ipcRenderer.sendTo(2, 'score', team, score);
     this.updateTeam();
   }

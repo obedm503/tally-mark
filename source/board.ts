@@ -13,13 +13,13 @@ export class Board {
     console.log('id: ', this.id);
 
     ipcRenderer.on('update', (e, game) => {
-      console.log('update', e, game)
-      Object.assign(this.game, game)
-      this.game.teams.push(1 as any)
+      console.log('update', e, game);
+      Object.assign(this.game, game);
+      this.game.teams.push(1 as any);
       this.game.teams.pop();
     });
     ipcRenderer.on('load', (e, game) => {
-      console.log('load', e, game)
+      console.log('load', e, game);
       this.loadGame(game);
     });
 
@@ -31,12 +31,12 @@ export class Board {
 
     $('#countdown').countdown({
       minutes: this.game.timer,
-      backgroundColor:'bg-black',
-      dividerColor:'fg-white',
-      labelColor:'#2D2D30'
+      backgroundColor: 'bg-black',
+      dividerColor: 'fg-white',
+      labelColor: '#2D2D30',
     }).children('div').each(function(i){
       // hides days, hours, and theit dividers
-      if( i < 4 ){
+      if ( i < 4 ){
         $(this).hide();
       }
     });

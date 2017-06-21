@@ -1,8 +1,8 @@
-import { bindable, inject } from 'aurelia-framework';
-import { Store } from '../../services/store';
-import 'metro';
-import { remote } from 'electron';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { bindable, inject } from 'aurelia-framework';
+import { remote } from 'electron';
+import 'metro';
+import { Store } from '../../services/store';
 
 @inject(Store, EventAggregator)
 export class Team {
@@ -16,10 +16,13 @@ export class Team {
   constructor(public store: Store, public ea: EventAggregator){}
 
   activate(team){
+    this.store.state.subscribe( state => {
+      console.log(state);
+    });
     this.team = this.store.getTeam(team.id);
     this.teamBak = JSON.parse(JSON.stringify( this.team ));
     // this.games = this.team.games;
-    console.log(JSON.stringify(this.store.teams, null, 2))
+    console.log(JSON.stringify(this.store.teams, null, 2));
     // this.games = this.team.games.map( el => {
     //   let game = this.store.getGame(el.id);
     //   game.teams.map(team => Object.assign(team, this.store.getTeam(team.id) ));
@@ -33,11 +36,11 @@ export class Team {
       buttons: ['Delete', 'Cancel'],
       defaultId: 1,
       cancelId: 1,
-      title:'the Title',
-      message:'The message',
+      title: 'the Title',
+      message: 'The message',
       detail: 'a detail',
     }, selected => {
-      if( selected === 0 ){
+      if ( selected === 0 ){
         this.ea.publish('list-delete', { item: this.team, route: 'teams' });
         this.store.deleteTeam(this.team);
         this.editing = false;
@@ -57,14 +60,14 @@ export class Team {
 
   saveEdit(){
     this.editing = false;
-    let copy = JSON.parse( JSON.stringify(this.team) );
+    const copy = JSON.parse( JSON.stringify(this.team) );
     this.teamBak = JSON.parse( JSON.stringify(this.team) );
     this.team = this.store.setTeam(copy);
 
     this.ea.publish('list-add', { item: this.team, route: 'teams' });
 
     this.games = this.team.games.map(el => {
-      let game = this.store.getGame(el.id);
+      const game = this.store.getGame(el.id);
       game.teams = game.teams.map(team => Object.assign(team, this.store.getTeam(team.id) ));
       return game;
     });
@@ -73,18 +76,18 @@ export class Team {
   create(){
     this.editing = true;
     this.team = {
-      name:'',
-      image:'',
-      games:[]
+      name: '',
+      image: '',
+      games: [],
     };
     this.games = [];
   }
 
   openImageFile(){
     remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-      properties: ['openFile']
+      properties: ['openFile'],
     }, files => {
-      if(!files){
+      if (!files){
         return;
       }
       this.team.image = files[0];
