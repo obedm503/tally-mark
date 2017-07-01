@@ -6,6 +6,32 @@
     ],
     "jsRules": {},
     "rules": {
+      "no-invalid-this": true,
+      "object-key-spacing":[ true, "always"],
+      "block-spacing": [
+        true,
+        "always"
+      ],
+      "space-in-parens": [true, "always", { "exceptions": [ "{}", "[]", "empty" ] }],
+      "whitespace": [
+        true,
+        "check-decl",
+        "check-operator",
+        "check-module",
+        "check-separator",
+        "check-type",
+        "check-typecast"
+      ],
+      "one-line": [
+        true,
+        "check-catch",
+        "check-finally",
+        "check-else",
+        "check-open-brace"
+      ],
+      "ordered-imports": [
+        "off"
+      ],
       "keyword-spacing":[
         "error",
         {

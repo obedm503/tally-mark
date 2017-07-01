@@ -1,4 +1,5 @@
-import schemas from './schemas';
+import * as schema from './schema';
+import db from './db';
 
 const types: any = {};
 const creators: any = {};
@@ -14,8 +15,16 @@ creators.addGame = game => {
 types.NORMALIZE = 'NORMALIZE';
 creators.normalize = () => {
   return {
-    type: types.normalize,
-    payload: schemas,
+    type: types.NORMALIZE,
+    payload: schema.main,
+  };
+};
+
+types.SAVE = 'SAVE';
+creators.save = () => {
+  return {
+    type: types.SAVE,
+    payload: schema.main,
   };
 };
 

@@ -1,17 +1,18 @@
+import { createStore } from 'redux';
+import { normalize } from 'normalizr';
 import { remote } from 'electron';
 import { BehaviorSubject } from 'rxjs';
+import store from '../state/store';
+import { creators } from '../state/actions';
 
 const low = remote.require('lowdb');
 const uuid = remote.require('uuid');
 
 export class Store {
-  private initialState = { games: [], teams: [] };
-  private _state = new BehaviorSubject(this.initialState);
-  private db;
-
   public teams: ITeam[] = [];
   public games: IGame[] = [];
-  public state = this._state.asObservable();
+  private initialState = { games: [], teams: [] };
+  private db;
 
   constructor(){
     const path = remote.app.getPath('userData');
@@ -32,10 +33,15 @@ export class Store {
       // fill games
       team.games.forEach( id => this.getGame(id as any) );
     });
-    // console.log('games: ', this.games, 'teams: ', this.teams)
+
+    store.subscribe(() => {
+      console.log('state: ', this.db.value() , 'normalized state: ', store.getState() );
+    });
+    store.dispatch(creators.normalize());
+
   }
 
-  save(){
+  public save(){
     const games = this.games.map( game => this.cleanGame(game) );
 
     const teams = this.teams.map( team => this.cleanTeam(team) );
@@ -44,11 +50,10 @@ export class Store {
       games,
       teams,
     };
-    this._state.next(newState);
     this.db.setState(newState);
   }
 
-  cleanTeam( team: ITeam ){
+  public cleanTeam( team: ITeam ){
     return {
       name: team.name,
       id: team.id || uuid(),
@@ -57,7 +62,7 @@ export class Store {
     };
   }
 
-  cleanGame( game: IGame ){
+  public cleanGame( game: IGame ){
     return {
       name: game.name,
       id: game.id,
@@ -71,10 +76,10 @@ export class Store {
     };
   }
 
-  getTeam(id: string): ITeam {
+  public getTeam(id: string): ITeam {
     return this.teams.find( team => team.id === id );
   }
-  setTeam(team: ITeam): ITeam {
+  public setTeam(team: ITeam): ITeam {
     team = this.cleanTeam(team) as any;
 
     const foundIndex = this.teams.findIndex( el => el.id === team.id);
@@ -89,17 +94,17 @@ export class Store {
 
     return this.getTeam( team.id );
   }
-  deleteTeam(team: ITeam): void {
+  public deleteTeam(team: ITeam): void {
     const index = this.teams.findIndex( el => el.id === team.id );
     this.teams.splice(index, 1);
 
     this.save();
   }
 
-  getGame(id: string): IGame {
+  public getGame(id: string): IGame {
     return this.games.find( el => el.id === id );
   }
-  setGame(game: IGame): IGame {
+  public setGame(game: IGame): IGame {
     game = this.cleanGame(game) as any;
 
     const foundIndex = this.games.findIndex( el => el.id === game.id);
@@ -116,7 +121,7 @@ export class Store {
 
     return this.getGame( game.id );
   }
-  deleteGame(game: IGame): void {
+  public deleteGame(game: IGame): void {
     const index = this.teams.findIndex( el => el.id === game.id );
     this.games.splice(index, 1);
 

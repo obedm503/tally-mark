@@ -1,6 +1,12 @@
 import { createStore } from 'redux';
-import reducer from './reducers';
+import rootReducer from './reducers';
+import * as db from './db';
 
-const store = createStore(reducer, {});
+const store = createStore( rootReducer, db.get() );
+
+// update local db
+store.subscribe( () => {
+  db.set( store.getState() );
+});
 
 export default store;
