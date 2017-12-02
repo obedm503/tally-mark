@@ -2,8 +2,6 @@ import { createStore } from 'redux';
 import { normalize } from 'normalizr';
 import { remote } from 'electron';
 import { BehaviorSubject } from 'rxjs';
-import store from '../state/store';
-import { creators } from '../state/actions';
 
 const low = remote.require('lowdb');
 const uuid = remote.require('uuid');
@@ -34,10 +32,10 @@ export class Store {
       team.games.forEach( id => this.getGame(id as any) );
     });
 
-    store.subscribe(() => {
-      console.log('state: ', this.db.value() , 'normalized state: ', store.getState() );
-    });
-    store.dispatch(creators.normalize());
+    // store.subscribe(() => {
+    //   console.log('state: ', this.db.value() , 'normalized state: ', store.getState() );
+    // });
+    // store.dispatch(creators.normalize());
 
   }
 

@@ -23,7 +23,7 @@ describe('MenuControl', () => {
       }
     ];
     component = StageComponent
-      .withResources('elements/menu-control')
+      .withResources('components/menu-control')
       .inView('<menu-control items.bind="menu"></menu-control>')
       .boundTo({ menu: menu });
   });

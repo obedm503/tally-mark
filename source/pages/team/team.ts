@@ -1,33 +1,25 @@
+import { autoinject } from 'aurelia-dependency-injection';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { bindable, inject } from 'aurelia-framework';
 import { remote } from 'electron';
 import 'metro';
-import { Store } from '../../services/store';
+import { Store } from '../../state/store';
+import { log } from "../../util/log";
 
-@inject(Store, EventAggregator)
+@autoinject
 export class Team {
-  @bindable team: ITeam;
-  @bindable teamBak: ITeam;
-  @bindable creatingTeam: boolean = false;
-  @bindable isImageFile: boolean = false;
-  @bindable games: IGame[];
-  @bindable editing: boolean;
+  private team: ITeam;
+  private teamBak: ITeam;
+  private creatingTeam: boolean = false;
+  private isImageFile: boolean = false;
+  private games: IGame[];
+  private editing: boolean;
 
-  constructor(public store: Store, public ea: EventAggregator){}
+  constructor( private store: Store, private ea: EventAggregator ){}
 
-  activate(team){
+  public activate( team ){
     this.store.state.subscribe( state => {
-      console.log(state);
+      log.info( state );
     });
-    this.team = this.store.getTeam(team.id);
-    this.teamBak = JSON.parse(JSON.stringify( this.team ));
-    // this.games = this.team.games;
-    console.log(JSON.stringify(this.store.teams, null, 2));
-    // this.games = this.team.games.map( el => {
-    //   let game = this.store.getGame(el.id);
-    //   game.teams.map(team => Object.assign(team, this.store.getTeam(team.id) ));
-    //   return game;
-    // });
   }
 
   deleteTeam(){
@@ -40,11 +32,11 @@ export class Team {
       message: 'The message',
       detail: 'a detail',
     }, selected => {
-      if ( selected === 0 ){
-        this.ea.publish('list-delete', { item: this.team, route: 'teams' });
-        this.store.deleteTeam(this.team);
-        this.editing = false;
-      }
+      // if ( selected === 0 ){
+      //   this.ea.publish( 'list-delete', { item: this.team, route: 'teams' });
+      //   this.store.deleteTeam( this.team );
+      //   this.editing = false;
+      // }
     });
   }
 
@@ -54,43 +46,43 @@ export class Team {
 
   cancelEdit(){
     // return to old state without loosing references in 'list'
-    Object.assign(this.team, this.teamBak );
-    this.editing = false;
+    // Object.assign( this.team, this.teamBak );
+    // this.editing = false;
   }
 
   saveEdit(){
-    this.editing = false;
-    const copy = JSON.parse( JSON.stringify(this.team) );
-    this.teamBak = JSON.parse( JSON.stringify(this.team) );
-    this.team = this.store.setTeam(copy);
+    // this.editing = false;
+    // const copy = JSON.parse( JSON.stringify( this.team ) );
+    // this.teamBak = JSON.parse( JSON.stringify( this.team ) );
+    // this.team = this.store.setTeam( copy );
 
-    this.ea.publish('list-add', { item: this.team, route: 'teams' });
+    // this.ea.publish( 'list-add', { item: this.team, route: 'teams' });
 
-    this.games = this.team.games.map(el => {
-      const game = this.store.getGame(el.id);
-      game.teams = game.teams.map(team => Object.assign(team, this.store.getTeam(team.id) ));
-      return game;
-    });
+    // this.games = this.team.games.map( el => {
+    //   // const game = this.store.getGame( el.id );
+    //   // game.teams = game.teams.map( team => Object.assign( team, this.store.getTeam( team.id ) ) );
+    //   // return game;
+    // });
   }
 
   create(){
-    this.editing = true;
-    this.team = {
-      name: '',
-      image: '',
-      games: [],
-    };
-    this.games = [];
+    // this.editing = true;
+    // this.team = {
+    //   name: '',
+    //   image: '',
+    //   games: [],
+    // };
+    // this.games = [];
   }
 
   openImageFile(){
-    remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+    remote.dialog.showOpenDialog( remote.getCurrentWindow(), {
       properties: ['openFile'],
     }, files => {
-      if (!files){
-        return;
-      }
-      this.team.image = files[0];
+      // if ( !files ){
+      //   return;
+      // }
+      // this.team.image = files[0];
     });
   }
 }

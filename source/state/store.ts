@@ -1,12 +1,29 @@
-import { createStore } from 'redux';
-import rootReducer from './reducers';
+import { normalize, schema } from 'normalizr';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { BehaviorSubject } from 'rxjs';
+import * as actions from './actions/index';
+import * as schemas from './schema';
 import * as db from './db';
 
-const store = createStore( rootReducer, db.get() );
+export class Store {
+  private subject = new BehaviorSubject({});
 
-// update local db
-store.subscribe( () => {
-  db.set( store.getState() );
-});
+  public state = this.subject.asObservable();
+  public dispatcher = new EventAggregator();
 
-export default store;
+  constructor(){
+    this.update( db.get() );
+    // convention: actions have to be UPPER_CASE
+    Object.keys( actions ).forEach( name => {
+      if( name === name.toUpperCase() ){
+        this.dispatcher.subscribe( name, data => {
+          this.update( actions[name]( this.dispatcher, this.subject.getValue(), data ) );
+        });
+      }
+    });
+  }
+  private update( newState: any ): void {
+    if( !newState ){ return; }
+    this.subject.next( normalize( Object.assign({}, newState ), schemas.main ) );
+  }
+}
