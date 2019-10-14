@@ -1,3 +1,7 @@
+## Archived
+
+See https://github.com/obedm503/scoreboard for a more recent experiment
+
 ## Tally Mark - a scoreboard
 
 and an excuse for an electron app
